@@ -11,6 +11,9 @@ on:
       repository_name:
         required: true
         type: string
+      module_name:
+        required: false
+        type: string
 
 jobs:
   build:
@@ -23,23 +26,20 @@ jobs:
           repository: ${{ inputs.repository_name }}
           ref: main
 
-      - name: Cache Maven dependencies
-        if: ${{ true && github.repository != 'beergode/shared-pipeline-templates' }}
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
       - name: Set up JDK
         if: ${{ true && github.repository != 'beergode/shared-pipeline-templates' }}
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: '17'
+          java-version: '21'
 
-      - name: Build with Maven
+      - name: Cache gradle dependencies
         if: ${{ true && github.repository != 'beergode/shared-pipeline-templates' }}
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+
+      - name: Build with Gradle
         run:
-          mvn clean install -Dmaven.test.skip=true
+          ./gradlew {{ inputs.module_name }}:build {{ inputs.module_name }}:bootJar -PskipInfraSetup -Dorg.gradle.daemon=false --rerun-tasks
