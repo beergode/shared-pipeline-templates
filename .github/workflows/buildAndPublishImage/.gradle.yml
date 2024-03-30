@@ -39,12 +39,12 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'adopt'
-        java-version: '17'
+        java-version: '21'
 
-    - name: Build with Maven
+    - name: Build with Gradle
       if: ${{ true && github.repository != 'beergode/shared-pipeline-templates' }}
       run:
-        mvn clean install
+        ./gradle clean build -x test
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
