@@ -17,6 +17,8 @@ on:
         type: string
       tag:
         type: string
+      module_name:
+        type: string
     secrets:
       registry_username:
         required: true
@@ -49,6 +51,8 @@ jobs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
+      with:
+        dockerfile: ./${{ inputs.module_name }}/Dockerfile
 
     - name: Login to GitHub Container Registry
       if: ${{ github.repository != 'beergode/shared-pipeline-templates' }}
