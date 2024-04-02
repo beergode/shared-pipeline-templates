@@ -42,4 +42,4 @@ jobs:
 
       - name: Build with Gradle
         run:
-          ~/.gradle/ {{ inputs.module_name }}:build {{ inputs.module_name }}:bootJar -Dorg.gradle.daemon=false --rerun-tasks
+          ~/.gradle {{ inputs.module_name }}:build {{ inputs.module_name }}:bootJar -Dorg.gradle.daemon=false --rerun-tasks
