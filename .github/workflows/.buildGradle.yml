@@ -41,6 +41,9 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
 
       - name: Build with Gradle
+
         run: |
           chmod +x ./gradlew
-          ./gradlew {{ inputs.module_name }}:build {{ inputs.module_name }}:bootJar -Dorg.gradle.daemon=false --rerun-tasks
+          ./gradlew ${MODULE}:build ${MODULE}:bootJar -Dorg.gradle.daemon=false --rerun-tasks
+        env:
+          MODULE: ${{ inputs.module_name }}
