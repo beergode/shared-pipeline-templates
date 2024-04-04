@@ -12,6 +12,8 @@ on:
       registry_username:
         required: true
         type: string
+      module_name:
+        type: string
     secrets:
       registry_password:
         required: true
@@ -82,13 +84,13 @@ jobs:
           CONTAINER_REGISTRY_USERNAME: ${{ inputs.registry_username }}
           CONTAINER_REGISTRY_PASSWORD: ${{ secrets.registry_password }}
         run: |
-          cd deploy
-          helmfile diff    
+          cd ${{ inputs.module_name }}/deploy
+          helmfile diff  
 
       - name: Deploy Apply
         env:
           CONTAINER_REGISTRY_USERNAME: ${{ inputs.registry_username }}
           CONTAINER_REGISTRY_PASSWORD: ${{ secrets.registry_password }}
         run: |
-          cd deploy
+          cd ${{ inputs.module_name }}/deploy
           helmfile apply
