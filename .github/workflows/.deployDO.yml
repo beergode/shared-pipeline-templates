@@ -83,6 +83,9 @@ jobs:
         env:
           CONTAINER_REGISTRY_USERNAME: ${{ inputs.registry_username }}
           CONTAINER_REGISTRY_PASSWORD: ${{ secrets.registry_password }}
+          MONGODB_USERNAME: ${{ inputs.MONGODB_USERNAME }}
+          MONGODB_DATABASE: ${{ inputs.MONGODB_DATABASE }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
         run: |
           cd ${{ inputs.module_name }}/deploy
           helmfile diff  
