@@ -87,13 +87,21 @@ jobs:
           MONGODB_DATABASE: ${{ inputs.MONGODB_DATABASE }}
           MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
         run: |
-          cd ${{ inputs.module_name }}/deploy
-          helmfile diff  
+          if [ -d "${{ inputs.module_name }}" ]; then
+            cd ${{ inputs.module_name }}/deploy
+          else
+            cd deploy
+          fi
+          helmfile diff
 
       - name: Deploy Apply
         env:
           CONTAINER_REGISTRY_USERNAME: ${{ inputs.registry_username }}
           CONTAINER_REGISTRY_PASSWORD: ${{ secrets.registry_password }}
         run: |
-          cd ${{ inputs.module_name }}/deploy
+          if [ -d "${{ inputs.module_name }}" ]; then
+            cd ${{ inputs.module_name }}/deploy
+          else
+            cd deploy
+          fi
           helmfile apply
