@@ -63,7 +63,7 @@ jobs:
 
     - name: Copy to Static Folder
       run: |
-          cp -R ${{ secrets.dist_folder }}* ${{ secrets.static_folder }}
+          sudo cp -R ${{ secrets.dist_folder }}* ${{ secrets.static_folder }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
